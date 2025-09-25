@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Sangopore_Prep_and_Run"
+version = "0.1.0"
+description = "Sangopore quality control measures followed by Sangopore run"
+authors = [
+    { name = "Paul", email = "paul.j.worden@gmail.com" }
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "pandas",
+    "biopython",
+    "matplotlib"
+]
+
+[project.scripts]
+sango-create-table-onedir-allBCs = "Sangopore_Prep_and_Run.Sangopore_Preparation.Sangopore_create_input_table.create_pythonSangoTable_allFastqInOneDir_rowSort:main"
+sango-create-table-multidir-multifiles = "Sangopore_Prep_and_Run.Sangopore_Preparation.Sangopore_create_input_table.create_pythonSangoTable_fastqInMultipleDirs_rowSort:main"
+sangopore-prep = "Sangopore_Prep_and_Run.Sangopore_Preparation.Sangopore_AmpSorter_Prep_QC_base:main"
+sangopore-run = "Sangopore_Prep_and_Run.Sangopore_Run.Sangopore_ampliconSorter:main"
+sangopore-results-sort = "Sangopore_Prep_and_Run.Sangopore_Run.final_sort:main"
+sangopore-expand-bc-names = "Sangopore_Prep_and_Run.Sangopore_Run.expand_barcodes_with_sampleIDs:main"
+sango-filter-fasta-with-blastCSV = "Sangopore_Prep_and_Run.Sangopore_Run.filter_fasta_from_blastCSV:main"
+
+[tool.setuptools.packages.find]
+where = [""]
+include = ["Sangopore_Prep_and_Run*"]
+
+[tool.setuptools.package-data]
+"Sangopore_Prep_and_Run.Sangopore_Preparation" = ["tidy_multiqc_script.R", "README.md"]
+"Sangopore_Prep_and_Run.Sangopore_Run" = [
+    "README.md",
+    "additional_scripts/*",
+    "additional_scripts/**/*"
+]
+"Sangopore_Prep_and_Run" = [
+    "Test_Barcoded_Fastq_Inputs/*",
+    "Test_Barcoded_Fastq_Inputs/**/*",
+    "Test_OneDir_BC_per_fastq/*",
+    "Test_OneDir_BC_per_fastq/**/*",
+    "Test_Outputs/Test_Outputs_README.md"
+]
+
+[tool.setuptools]
+include-package-data = true

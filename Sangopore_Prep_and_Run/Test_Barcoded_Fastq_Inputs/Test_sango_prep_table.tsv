@@ -1,0 +1,3 @@
+barcode_number	input_barcode_file	subgroup_folder	min_range_bp	max_range_bp
+barcode01	Sangopore_Prep_and_Run/Test_Barcoded_Fastq_Inputs/barcode01	Group1	300	500
+barcode09	Sangopore_Prep_and_Run/Test_Barcoded_Fastq_Inputs/barcode09	Group2	700	900

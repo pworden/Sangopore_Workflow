@@ -1,0 +1,21 @@
+# Ignore all outputs from tests
+Sangopore_Prep_and_Run_Dev/Test_Outputs/*
+# But allow README in Test_Outputs to be tracked
+!Sangopore_Prep_and_Run_Dev/Test_Outputs/Test_Outputs_README.md
+
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Packaging build output
+dist/
+*.egg-info/
+build/
+
+# Ignore all temporary and pickle files
+*.tmp
+*.pickle
+
+# Ignore additional scripts folder
+Sangopore_Prep_and_Run_Dev/Sangopore_Run/additional_scripts/
