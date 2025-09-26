@@ -4,6 +4,8 @@
 # Github test command:
 conda activate Sangopore_Prep_and_Run
 
+# Check ram disk is unmounted
+mount | grep /mnt/ramfs2
 # Can run this first to delete any existing ram disk (although)
 rm -rf /mnt/ramfs2/nt
 # Create the nt folder ram disk
@@ -193,10 +195,17 @@ class Sangopore:
         with open(tmpfile, "w") as pcmds:
             pcmds.write("\n".join(cmds))
 
+        tmp_cmds_path = Path(self.output_folder) / subgroup / "amplicon_sorter_run/.amp_sort_cmds.tmp"
+
         # Run jobs in parallel; parallel will queue jobs if more than available cores
         subprocess.run(
-            ["parallel", "--jobs", str(self.threads), "-a", tmpfile],
-            check=True
+            [
+                "parallel",
+                "--jobs", str(self.threads),
+                "--halt", "never",   # <--- tell parallel to continue even if some commands fail
+                "-a", str(tmp_cmds_path)
+            ],
+            check=False  # <--- ensures Python doesn't raise CalledProcessError
         )
 
 
