@@ -11,16 +11,25 @@ rm -rf /mnt/ramfs2/nt
 # Create the nt folder ram disk
 mkdir /mnt/ramfs2/nt
 
+# Create a mount disk if one is missing, and change permissions 
+sudo mkdir -p /mnt/ramfs2
+sudo chmod 777 /mnt/ramfs2
+
 sangopore-run \
     --input_tsv "Sangopore_Prep_and_Run/Test_Outputs/Test_Outputs_sangopore_prep_qc.tsv" \
     -o "Sangopore_Prep_and_Run/Test_Outputs" \
-    -t "40" \
+    -t "60" \
     --blast_db "$HOME/databases/blast_dbs/nt" \
     --blast-files-prefix "nt" \
     --max-reads 10000 \
     --use-ram-disk \
     --run_fasta_filtering \
     --fasta_filter_threshold 1
+
+PRIMER TRIMMING WORKFLOW:
+To trim PCR primers from consensus sequences and run BLASTN analysis only, use sangopore_remove_primers.py
+to trim primers first, then comment out Phase 1 in run_pipeline() and re-run sangopore-run to perform BLASTN
+on the trimmed sequences. See README.md "Workflow: Trim Primers and Continue BLASTN Analysis" for complete details.
 """
 
 from .arg_parser import parse_arguments
@@ -981,6 +990,8 @@ class Sangopore:
 
         try:
             # ---------- Phase 1: Preprocessing ----------
+            # OPTIONAL: Comment out this section to skip amplicon_sorter and start directly
+            # from trimmed consensus sequences. See README.md for workflow details.
             for subgroup, files in self.subgroup_data.items():   ### CHANGED
                 self.copy_compressed_fastq_files(subgroup, files)
                 self.uncompress_fastq_files(subgroup, files)
