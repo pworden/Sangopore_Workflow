@@ -16,7 +16,7 @@ def parse_arguments():
     parser.add_argument("-o", "--output_folder", required=True, help="Final output directory")
     parser.add_argument("-t", "--threads", type=int, default=1, help="Number of threads")
     parser.add_argument("--blast_db", type=str, required=True, help="Path to the BLAST nt database")
-    parser.add_argument("--blast-files-prefix", type=str, default="", help="Prefix for BLAST database files (e.g., 'nt' if your files are nt.*)")
+    parser.add_argument("--blast-files-prefix", type=str, default="nt", help="Prefix for BLAST database files (e.g., 'nt' if your files are nt.*)")
     parser.add_argument("--max-reads", type=int, default=10000, help='Set max reads for amplicon_sorter (default: 10000)')
     parser.add_argument("--use-ram-disk", action="store_true",help="Use a RAM disk to copy the BLAST database for faster processing (default: False)")
     parser.add_argument("--set-ram-size", type=float, default=None, help="Optional fixed RAM disk size in GB. If not set, automatically computes 1.1x the database folder size.")

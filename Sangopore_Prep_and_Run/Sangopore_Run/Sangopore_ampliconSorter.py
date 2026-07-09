@@ -434,6 +434,8 @@ class Sangopore:
         blast_files = list(blast_db_for_run.parent.glob(blast_db_for_run.name + ".*"))
         if not blast_files:
             print(f"[ERROR] BLAST DB path does not exist or no files found: {blast_db_for_run}")
+            print(f"[ERROR] Looking for files matching: {blast_db_for_run.parent / (blast_db_for_run.name + '.*')}")
+            print(f"[ERROR] Searched directory: {blast_db_for_run.parent}")
             return
 
         # Find input FASTA files
