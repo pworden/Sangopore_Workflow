@@ -469,7 +469,7 @@ class Sangopore:
 
             print(f"[DEBUG] Running BLAST ASN:\n{' '.join(blastn_command_asn)}")
             try:
-                subprocess.run(blastn_command_asn, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                subprocess.run(blastn_command_asn, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=os.environ)
                 print(f"[INFO] BLAST ASN output written to {blast_asn_file}")
             except subprocess.CalledProcessError as e:
                 print(f"[ERROR] BLAST failed for {input_file.name}")
@@ -485,7 +485,7 @@ class Sangopore:
                 "-archive", str(blast_asn_file),
                 "-outfmt", "6 qseqid sseqid qcovs qlen pident length mismatch gapopen qstart qend sstart send evalue bitscore staxids stitle sscinames",
                 "-out", str(blast_tsv_file)
-            ], check=True)
+            ], check=True, env=os.environ)
 
             # ---- Convert ASN → XML ----
             blast_xml_file = blast_out_path / f"blastn_{output_file_base}.xml"
@@ -494,7 +494,7 @@ class Sangopore:
                 "-archive", str(blast_asn_file),
                 "-outfmt", "5",
                 "-out", str(blast_xml_file)
-            ], check=True)
+            ], check=True, env=os.environ)
 
             print(f"[INFO] TSV and XML outputs written to {blast_out_path}")
 
