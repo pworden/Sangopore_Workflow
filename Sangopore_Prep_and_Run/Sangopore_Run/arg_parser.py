@@ -22,6 +22,7 @@ def parse_arguments():
     parser.add_argument("--set-ram-size", type=float, default=None, help="Optional fixed RAM disk size in GB. If not set, automatically computes 1.1x the database folder size.")
     parser.add_argument("--run_fasta_filtering", action="store_true", help="Run postprocessing step to filter FASTA files based on CSV abundance threshold")
     parser.add_argument("--fasta_filter_threshold", type=float, default=1.0, help="Threshold for filtering FASTA based on Percent_Amp_reads_of_analysis_inputs_per_BC (default: 1.0)")
+    parser.add_argument("--taxonomy-db", type=str, default="/home/wordenp/databases/blast_dbs/taxdb", help="Path to NCBI taxonomy database directory (default: /home/wordenp/databases/blast_dbs/taxdb)")
     parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}')
     args = parser.parse_args()
 

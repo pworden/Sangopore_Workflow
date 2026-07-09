@@ -11,7 +11,7 @@ rm -rf /mnt/ramfs2/nt
 # Create the nt folder ram disk
 mkdir /mnt/ramfs2/nt
 
-# Create a mount disk if one is missing, and change permissions 
+# Create a mount disk if one is missing, and change permissions
 sudo mkdir -p /mnt/ramfs2
 sudo chmod 777 /mnt/ramfs2
 
@@ -19,12 +19,18 @@ sangopore-run \
     --input_tsv "Sangopore_Prep_and_Run/Test_Outputs/Test_Outputs_sangopore_prep_qc.tsv" \
     -o "Sangopore_Prep_and_Run/Test_Outputs" \
     -t "60" \
-    --blast_db "$HOME/databases/blast_dbs/nt" \
+    --blast_db "$HOME/AGTC_EMAI_NAS/GENEDB/blast/nt" \
     --blast-files-prefix "nt" \
     --max-reads 10000 \
     --use-ram-disk \
+    --taxonomy-db "/home/wordenp/databases/blast_dbs/taxdb" \
     --run_fasta_filtering \
     --fasta_filter_threshold 1
+
+TAXONOMY DATABASE:
+The --taxonomy-db flag specifies the path to the NCBI taxonomy database directory (contains taxdb.btd and taxdb.bti files).
+Default: /home/wordenp/databases/blast_dbs/taxdb
+This is required for BLAST to resolve taxonomy IDs to scientific names in the output.
 
 PRIMER TRIMMING WORKFLOW:
 To trim PCR primers from consensus sequences and run BLASTN analysis only, use sangopore_remove_primers.py
@@ -88,7 +94,8 @@ class Sangopore:
                  run_fasta_filtering: bool = False,
                  fasta_filter_threshold: float = 1.0,
                  use_ram_disk: bool = True,
-                 fixed_ram_size_gb: float = None
+                 fixed_ram_size_gb: float = None,
+                 taxonomy_db_path: str = None
                  ):
         self.script_path = script_path
         self.output_folder = output_folder
@@ -100,6 +107,7 @@ class Sangopore:
         self.run_fasta_filtering = run_fasta_filtering
         self.fasta_filter_threshold = fasta_filter_threshold
         self.use_ram_disk = use_ram_disk
+        self.taxonomy_db_path = taxonomy_db_path
 
         # For ram disk usage
         self.ramdisk_path = Path("/mnt/ramfs2")
@@ -406,6 +414,10 @@ class Sangopore:
         import subprocess
         from pathlib import Path
         import sys
+
+        if self.taxonomy_db_path:
+            os.environ['NCBI_DATA'] = self.taxonomy_db_path
+            print(f"[INFO] Set NCBI_DATA={self.taxonomy_db_path}")
 
         parent_input_folder = Path(self.output_folder) / subgroup / "amplicon_sorter_run"
         parent_output_folder = Path(self.output_folder) / subgroup / "amplicon_sorter_blastn_out"
@@ -1087,7 +1099,8 @@ def main():
         fixed_ram_size_gb=args.set_ram_size,
         run_fasta_filtering=args.run_fasta_filtering,
         fasta_filter_threshold=args.fasta_filter_threshold,
-        blast_files_prefix=args.blast_files_prefix
+        blast_files_prefix=args.blast_files_prefix,
+        taxonomy_db_path=args.taxonomy_db
     )
     print("[DEBUG] Subgroup data keys:")
     print(list(subgroup_data.keys()))
