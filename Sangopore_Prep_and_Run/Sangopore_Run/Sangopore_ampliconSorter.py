@@ -617,6 +617,7 @@ class Sangopore:
 
             # Keep only first species name if multiple semicolon-separated values
             df["Subject_scientific_name"] = df["Subject_scientific_name"].str.split(";").str[0]
+            df["Subject_Taxonomy_ID"] = df["Subject_Taxonomy_ID"].str.split(";").str[0]
 
             # Reorder columns to match requested output
             col_order = [
