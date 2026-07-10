@@ -615,6 +615,9 @@ class Sangopore:
             df["barcode_number"] = barcode_num
             df["Passed_Filter_Reads"] = passed_reads_lookup.get(barcode_num, "NA")
 
+            # Keep only first species name if multiple semicolon-separated values
+            df["Subject_scientific_name"] = df["Subject_scientific_name"].str.split(";").str[0]
+
             # Reorder columns to match requested output
             col_order = [
                 "Query_Seq_id",
