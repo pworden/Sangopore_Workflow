@@ -487,7 +487,7 @@ class Sangopore:
                 "-archive", str(blast_asn_file),
                 "-outfmt", "6 qseqid sseqid qcovs qlen pident length mismatch gapopen qstart qend sstart send evalue bitscore staxids stitle sscinames",
                 "-out", str(blast_tsv_file)
-            ], check=True, env=os.environ)
+            ], check=True, env=os.environ, cwd=self.taxonomy_db_path)
 
             # ---- Convert ASN → XML ----
             blast_xml_file = blast_out_path / f"blastn_{output_file_base}.xml"
@@ -496,7 +496,7 @@ class Sangopore:
                 "-archive", str(blast_asn_file),
                 "-outfmt", "5",
                 "-out", str(blast_xml_file)
-            ], check=True, env=os.environ)
+            ], check=True, env=os.environ, cwd=self.taxonomy_db_path)
 
             print(f"[INFO] TSV and XML outputs written to {blast_out_path}")
 
@@ -1006,14 +1006,15 @@ class Sangopore:
             # ---------- Phase 1: Preprocessing ----------
             # OPTIONAL: Comment out this section to skip amplicon_sorter and start directly
             # from trimmed consensus sequences. See README.md for workflow details.
-            for subgroup, files in self.subgroup_data.items():   ### CHANGED
-                self.copy_compressed_fastq_files(subgroup, files)
-                self.uncompress_fastq_files(subgroup, files)
-                self.amplicon_sorter_QC(subgroup, files)
-                self.amplicon_sorter_run(subgroup, files)
-                self.amplicon_sorter_copy_fastqs(subgroup)
-                self.collect_and_rename_consensus_sequences(subgroup)
-                self.collect_and_rename_single_consensus_sequences(subgroup)
+            # TEMPORARILY DISABLED FOR TESTING (2026-07-10)
+            #for subgroup, files in self.subgroup_data.items():   ### CHANGED
+            #    self.copy_compressed_fastq_files(subgroup, files)
+            #    self.uncompress_fastq_files(subgroup, files)
+            #    self.amplicon_sorter_QC(subgroup, files)
+            #    self.amplicon_sorter_run(subgroup, files)
+            #    self.amplicon_sorter_copy_fastqs(subgroup)
+            #    self.collect_and_rename_consensus_sequences(subgroup)
+            #    self.collect_and_rename_single_consensus_sequences(subgroup)
 
             if self.use_ram_disk:   ### CHANGED: wait once after preprocessing
                 self.wait_for_ramdisk_copy()
