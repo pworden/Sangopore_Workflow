@@ -573,7 +573,7 @@ class Sangopore:
                 "Subject_scientific_name"
             ]
 
-            df = pd.read_csv(tsv_path, sep="\t", header=None)
+            df = pd.read_csv(tsv_path, sep="\t", header=None, dtype=str)
             if df.shape[1] != len(headers):
                 raise ValueError(f"Expected {len(headers)} columns, got {df.shape[1]} in file {filename}")
             df.columns = headers
@@ -616,8 +616,8 @@ class Sangopore:
             df["Passed_Filter_Reads"] = passed_reads_lookup.get(barcode_num, "NA")
 
             # Keep only first species name if multiple semicolon-separated values
-            df["Subject_scientific_name"] = df["Subject_scientific_name"].str.split(";").str[0]
-            df["Subject_Taxonomy_ID"] = df["Subject_Taxonomy_ID"].str.split(";").str[0]
+            df["Subject_scientific_name"] = df["Subject_scientific_name"].astype(str).str.split(";").str[0]
+            df["Subject_Taxonomy_ID"] = df["Subject_Taxonomy_ID"].astype(str).str.split(";").str[0]
 
             # Reorder columns to match requested output
             col_order = [
@@ -1010,15 +1010,15 @@ class Sangopore:
             # ---------- Phase 1: Preprocessing ----------
             # OPTIONAL: Comment out this section to skip amplicon_sorter and start directly
             # from trimmed consensus sequences. See README.md for workflow details.
-            # TEMPORARILY DISABLED FOR TESTING (2026-07-10)
-            #for subgroup, files in self.subgroup_data.items():   ### CHANGED
-            #    self.copy_compressed_fastq_files(subgroup, files)
-            #    self.uncompress_fastq_files(subgroup, files)
-            #    self.amplicon_sorter_QC(subgroup, files)
-            #    self.amplicon_sorter_run(subgroup, files)
-            #    self.amplicon_sorter_copy_fastqs(subgroup)
-            #    self.collect_and_rename_consensus_sequences(subgroup)
-            #    self.collect_and_rename_single_consensus_sequences(subgroup)
+            
+                for subgroup, files in self.subgroup_data.items():
+                    self.copy_compressed_fastq_files(subgroup, files)
+                    self.uncompress_fastq_files(subgroup, files)
+                    self.amplicon_sorter_QC(subgroup, files)
+                    self.amplicon_sorter_run(subgroup, files)
+                    self.amplicon_sorter_copy_fastqs(subgroup)
+                    self.collect_and_rename_consensus_sequences(subgroup)
+                    self.collect_and_rename_single_consensus_sequences(subgroup)
 
             if self.use_ram_disk:   ### CHANGED: wait once after preprocessing
                 self.wait_for_ramdisk_copy()

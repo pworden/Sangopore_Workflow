@@ -10,7 +10,7 @@ conda activate Sangopore_Prep_and_Run
 
 sango-create-table-onedir-allBCs \
     --parent_input_dir "/home/wordenp/AGTC_EMAI_NAS/SRA/GridION/Biotechnology/SP25_015_Sangopore_28thOCT25/20251028_SP25_015/no_sample_id/20251028_1314_X2_BAJ991_de9556df/fastq_hac_pass" \
-    --output_dir "/home/wordenp/projects/sangopore_project/analyses/Sangopore_analysis/SP25_015_Sangopore_28thOCT25" \
+    --output_dir "/home/wordenp/projects/sangopore_project/analyses/Sangopore_analysis/SP26-016_Sangopore_31stJUL2026" \
     --output_tsv_name "AllInOneDir_table.tsv"
 """
 
