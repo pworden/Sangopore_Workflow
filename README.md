@@ -407,4 +407,4 @@ Parent_Output_Folder     # Path named by the user
 ```
 
 ### Funding Acknowledgement
-Financial support for this work was received for the development of this software. We thank the Grains Research and Development Corporation for funding the New South Wales Department of Primary Industries through the National Grains Diagnostics and Surveillance Initiative (DPI2305-010RTX). The funder was not involved in the design, development, or review of this software.
+Financial support for this work was received for the development of this software. We thank the **Grains Research and Development Corporation** for funding the **New South Wales Department of Primary Industries** through the **National Grains Diagnostics and Surveillance Initiative (DPI2305-010RTX)**. The funder was not involved in the design, development, or review of this software.
