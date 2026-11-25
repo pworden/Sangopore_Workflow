@@ -1011,14 +1011,14 @@ class Sangopore:
             # OPTIONAL: Comment out this section to skip amplicon_sorter and start directly
             # from trimmed consensus sequences. See README.md for workflow details.
             
-                for subgroup, files in self.subgroup_data.items():
-                    self.copy_compressed_fastq_files(subgroup, files)
-                    self.uncompress_fastq_files(subgroup, files)
-                    self.amplicon_sorter_QC(subgroup, files)
-                    self.amplicon_sorter_run(subgroup, files)
-                    self.amplicon_sorter_copy_fastqs(subgroup)
-                    self.collect_and_rename_consensus_sequences(subgroup)
-                    self.collect_and_rename_single_consensus_sequences(subgroup)
+            # for subgroup, files in self.subgroup_data.items():
+            #     self.copy_compressed_fastq_files(subgroup, files)
+            #     self.uncompress_fastq_files(subgroup, files)
+            #     self.amplicon_sorter_QC(subgroup, files)
+            #     self.amplicon_sorter_run(subgroup, files)
+            #     self.amplicon_sorter_copy_fastqs(subgroup)
+            #     self.collect_and_rename_consensus_sequences(subgroup)
+            #     self.collect_and_rename_single_consensus_sequences(subgroup)
 
             if self.use_ram_disk:   ### CHANGED: wait once after preprocessing
                 self.wait_for_ramdisk_copy()
